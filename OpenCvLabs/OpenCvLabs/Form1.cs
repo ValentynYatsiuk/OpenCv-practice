@@ -248,7 +248,37 @@ namespace OpenCvLabs
             morfForm.CloseImage();
         }
 
-        private void button6_Click(object sender, EventArgs e)
+		private void button7_Click(object sender, EventArgs e)
+		{
+			Image<Gray, byte> gray = new Image<Gray, byte>(_inputImage.Bitmap); 
+
+			Image<Gray, float> sobel = gray.Sobel(0, 1, 3).Add(gray.Sobel(1, 0, 3)).AbsDiff(new Gray(0.0));
+			imageBox2.Image = sobel;
+		}
+
+		private void button8_Click(object sender, EventArgs e)
+		{
+			Image<Gray, byte> gray = new Image<Gray, byte>(_inputImage.Bitmap);
+			CvInvoke.Canny(gray, gray, 41.6, 150.2);
+
+			imageBox2.Image = gray;
+		}
+
+		private void button9_Click(object sender, EventArgs e)
+		{
+			Image<Gray, byte> imgOutput = _inputImage.Convert<Gray, byte>().ThresholdBinary(new Gray(100), new Gray(255));
+			Emgu.CV.Util.VectorOfVectorOfPoint contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
+			Mat hier = new Mat();
+
+			Image<Gray, byte> imgout = new Image<Gray, byte>(_inputImage.Width, _inputImage.Height, new Gray(0));
+
+			CvInvoke.FindContours(imgOutput, contours, hier, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+			CvInvoke.DrawContours(imgout, contours, -1, new MCvScalar(255, 0, 0));
+
+			imageBox2.Image = imgout;
+		}
+
+		private void button6_Click(object sender, EventArgs e)
         {
             NormalizeImageForm normalize = new NormalizeImageForm(_inputImage);
             normalize.Show();

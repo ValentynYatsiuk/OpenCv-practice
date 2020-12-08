@@ -29,7 +29,7 @@ namespace VideoCapture
             CvInvoke.UseOpenCL = false;
             try
             {
-                _capture = new Emgu.CV.VideoCapture(2);
+                _capture = new Emgu.CV.VideoCapture(1);
                 _capture.ImageGrabbed += ProcessFrame;
             }
             catch (NullReferenceException excpt)
